@@ -1,7 +1,7 @@
 Dependencias
 
 ------ MySQL -----
-Ejecutar el siguiente Script SQL en un query
+Crear la base de datos con las siguientes consultas SQL
 
 CREATE DATABASE CSVDATA;
 
