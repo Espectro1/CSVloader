@@ -4,7 +4,7 @@ import axios from "axios";
 function App() {
   const [file, setFile] = useState(false);
   const [isPosted, setIsPosted] = useState(false);
-  const [procesedFile, setProcesedFile] = useState(false);
+  const [users, setUsers] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,21 +26,10 @@ function App() {
   useEffect(() => {
     if (isPosted) {
       axios.get("http://localhost:3000/api/users").then((response) => {
-        setProcesedFile(JSON.parse(response.data));
+        setUsers(JSON.parse(response.data));
       });
     }
   }, [isPosted]);
-
-  function validateEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    return regex.test(email);
-  }
-
-  function validatePhone(telefono) {
-    const regexTelefono = /^[0-9]{10}$/;
-    return regexTelefono.test(telefono);
-  }
 
   return (
     <div className="container">
@@ -48,10 +37,8 @@ function App() {
         <input type="file" onChange={(e) => setFile(e.target.files[0])} />
         <button type="submit">Enviar</button>
       </form>
-      <div>Numero de Personas en el registro: {procesedFile.count}</div>
-      <div>
-        Numero filas con datos duplicados: {procesedFile.numDuplicatedIds}
-      </div>
+      <div>Numero de Personas en el registro: {users.count}</div>
+      <div>Numero filas con datos duplicados: {users.numDuplicatedIds}</div>
       <div className="table-responsive">
         <table className="table">
           <thead>
@@ -63,31 +50,31 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {procesedFile &&
-              procesedFile.data.map((usuario, id) => (
+            {users &&
+              users.data.map((user, id) => (
                 <tr
                   key={id}
                   className={`${
-                    procesedFile.duplicatedIds.includes(usuario.id.toString())
+                    users.duplicatedIds.includes(user.id.toString())
                       ? "red"
                       : ``
                   }`}
                 >
-                  <td>{usuario.id}</td>
-                  <td>{usuario.Nombre}</td>
+                  <td>{user.id}</td>
+                  <td>{user.Nombre}</td>
                   <td
                     className={`${
-                      validateEmail(usuario.email) ? "" : "yellow"
+                      users.invalidEmailsIds.includes(user.id) ? "yellow" : ""
                     }`}
                   >
-                    {usuario.email}
+                    {user.email}
                   </td>
                   <td
                     className={`${
-                      validatePhone(usuario.phone) ? "" : "yellow"
+                      users.invalidPhonesIds.includes(user.id) ? "yellow" : ""
                     }`}
                   >
-                    {usuario.phone}
+                    {user.phone}
                   </td>
                 </tr>
               ))}

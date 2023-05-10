@@ -45,6 +45,32 @@ function findDuplicateIds(arr) {
   return Object.keys(duplicateValues);
 }
 
+function getInvalIdPhones(users) {
+  const invalidIdPhones = [];
+  for (const user of users) {
+    const regexPhone = /^[0-9]{10}$/;
+
+    if (!regexPhone.test(user.phone)) {
+      invalidIdPhones.push(user.id);
+    }
+  }
+
+  return invalidIdPhones;
+}
+
+function getInvalIdEmails(users) {
+  const invalidIdEmails = [];
+
+  for (const user of users) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regex.test(user.email)) {
+      invalidIdEmails.push(user.id);
+    }
+  }
+
+  return invalidIdEmails;
+}
+
 app.post("/api/upload", upload.single("file"), async (req, res) => {
   const file = req.file.buffer.toString();
   const results = [];
@@ -121,20 +147,19 @@ app.get("/api/users", async (req, res) => {
   });
 
   try {
-    const [rows, fields] = await connection.execute("SELECT * FROM Usuarios");
+    const [users, fields] = await connection.execute("SELECT * FROM Usuarios");
 
-    const duplicateValues = findDuplicateIds(rows, [
-      "Nombre",
-      "email",
-      "phone",
-    ]);
-    const users = {
-      data: rows,
-      count: rows.length,
+    const duplicateValues = findDuplicateIds(users);
+
+    const usersInfo = {
+      data: users,
+      count: users.length,
       duplicatedIds: duplicateValues,
       numDuplicatedIds: duplicateValues.length,
+      invalidEmailsIds: getInvalIdEmails(users),
+      invalidPhonesIds: getInvalIdPhones(users),
     };
-    res.json(JSON.stringify(users));
+    res.json(JSON.stringify(usersInfo));
   } catch (error) {
     console.error(error);
     res
