@@ -29,4 +29,4 @@ npm run start
 
 Front end (carpeta CSVLoader)
 npm i
-nom run dev
+npm run dev
