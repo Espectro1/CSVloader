@@ -10,10 +10,20 @@ CREATE DATABASE CSVDATA;
 USE CSVDATA;
 
 CREATE TABLE Usuarios (
+
+
   id INT NOT NULL AUTO_INCREMENT,
+  
+  
   Nombre VARCHAR(50) NOT NULL,
+  
+  
   email VARCHAR(50) NOT NULL,
+  
+  
   phone VARCHAR(20) NOT NULL,
+  
+  
   PRIMARY KEY (id)
 );
 
