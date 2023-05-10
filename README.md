@@ -1,6 +1,8 @@
 Dependencias
 
 ------ MySQL -----
+
+
 Crear la base de datos con las siguientes consultas SQL
 
 CREATE DATABASE CSVDATA;
