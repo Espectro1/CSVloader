@@ -26,6 +26,8 @@ Ir a la carpeta Backend > index.js > linea 10 y cambiar el password por la tuya,
 
 
 Backend :
+
+
 ejecutar 
 
 npm i 
@@ -33,6 +35,8 @@ npm i
 npm run start
 
 Front end (carpeta CSVLoader)
+
+
 ejecutar npm i
 
 
