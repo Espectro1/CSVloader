@@ -6,6 +6,9 @@ const csv = require("fast-csv");
 
 const app = express();
 
+const database = "CSVDATA";
+const password = "Admin";
+
 app.use(cors());
 app.use(cors({ origin: "*" }));
 
@@ -61,8 +64,8 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
       const connection = await mysql.createConnection({
         host: "localhost",
         user: "root",
-        password: "Admin",
-        database: "CSVDATA",
+        password: password,
+        database: database,
       });
 
       await connection.execute("DELETE FROM usuarios");
@@ -97,7 +100,6 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
           )
         `;
         const [results] = await connection.execute(sql);
-        console.log("result", results);
       } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -114,8 +116,8 @@ app.get("/api/users", async (req, res) => {
   const connection = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "Admin",
-    database: "CSVDATA",
+    password: password,
+    database: database,
   });
 
   try {
@@ -126,7 +128,6 @@ app.get("/api/users", async (req, res) => {
       "email",
       "phone",
     ]);
-    console.log("duplicateValues", duplicateValues);
     const users = {
       data: rows,
       count: rows.length,
