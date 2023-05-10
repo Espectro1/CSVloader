@@ -28,7 +28,9 @@ CREATE TABLE Usuarios (
 );
 
 
-password de base de datos
+password para conexion a base de datos:
+
+
 Ir a la carpeta Backend > index.js > linea 10 y cambiar el password por la tuya, por defecto esta en "Admin"
 
 
